@@ -359,6 +359,7 @@ object frmMain: TfrmMain
           item
             Expanded = False
             FieldName = 'CODIGO'
+            ReadOnly = True
             Title.Caption = 'C'#243'digo'
             Width = 100
             Visible = True
@@ -366,12 +367,14 @@ object frmMain: TfrmMain
           item
             Expanded = False
             FieldName = 'URL'
+            ReadOnly = True
             Width = 400
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'DATAINICIO'
+            ReadOnly = True
             Title.Caption = 'Data In'#237'cio'
             Width = 120
             Visible = True
@@ -379,6 +382,7 @@ object frmMain: TfrmMain
           item
             Expanded = False
             FieldName = 'DATAFIM'
+            ReadOnly = True
             Title.Caption = 'Data Fim'
             Width = 120
             Visible = True

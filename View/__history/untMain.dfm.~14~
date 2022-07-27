@@ -182,27 +182,22 @@ object frmMain: TfrmMain
     TabOrder = 1
     object tsDownload: TTabSheet
       Caption = 'Downloads'
-      ExplicitWidth = 281
-      ExplicitHeight = 162
       object pnButtons: TPanel
         AlignWithMargins = True
         Left = 3
-        Top = 155
+        Top = 166
         Width = 832
-        Height = 51
+        Height = 40
         Align = alBottom
         BevelKind = bkFlat
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitLeft = -2
-        ExplicitTop = 518
-        ExplicitWidth = 846
         object btnAllDownloads: TButton
           AlignWithMargins = True
           Left = 648
           Top = 3
           Width = 177
-          Height = 41
+          Height = 30
           Cursor = crHandPoint
           Align = alRight
           Caption = 'Hist'#243'rico de Downloads'
@@ -213,13 +208,14 @@ object frmMain: TfrmMain
           Font.Style = [fsBold]
           ParentFont = False
           TabOrder = 2
+          OnClick = btnAllDownloadsClick
         end
         object btnDownload: TButton
           AlignWithMargins = True
           Left = 3
           Top = 3
           Width = 177
-          Height = 41
+          Height = 30
           Cursor = crHandPoint
           Align = alLeft
           Caption = 'Iniciar Download'
@@ -237,7 +233,7 @@ object frmMain: TfrmMain
           Left = 186
           Top = 3
           Width = 177
-          Height = 41
+          Height = 30
           Cursor = crHandPoint
           Align = alLeft
           Caption = 'Parar Download'
@@ -257,13 +253,10 @@ object frmMain: TfrmMain
         Left = 3
         Top = 98
         Width = 832
-        Height = 51
+        Height = 62
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 1
-        ExplicitLeft = 6
-        ExplicitTop = 11
-        ExplicitHeight = 268
         object Label3: TLabel
           Left = 0
           Top = 0
@@ -300,8 +293,6 @@ object frmMain: TfrmMain
         BevelOuter = bvNone
         TabOrder = 2
         Visible = False
-        ExplicitLeft = 6
-        ExplicitTop = 11
         object lbPerc: TLabel
           AlignWithMargins = True
           Left = 3
@@ -350,22 +341,82 @@ object frmMain: TfrmMain
     object tsHistorico: TTabSheet
       Caption = 'Hist'#243'rico de Downloads'
       ImageIndex = 1
-      ExplicitWidth = 281
-      ExplicitHeight = 162
       object DBGrid1: TDBGrid
         AlignWithMargins = True
         Left = 3
         Top = 3
         Width = 832
-        Height = 203
+        Height = 157
         Align = alClient
+        DataSource = Ds
         TabOrder = 0
         TitleFont.Charset = ANSI_CHARSET
         TitleFont.Color = clWindowText
         TitleFont.Height = -11
         TitleFont.Name = 'Trebuchet MS'
         TitleFont.Style = []
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'CODIGO'
+            Title.Caption = 'C'#243'digo'
+            Width = 100
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'URL'
+            Width = 400
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'DATAINICIO'
+            Title.Caption = 'Data In'#237'cio'
+            Width = 120
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'DATAFIM'
+            Title.Caption = 'Data Fim'
+            Width = 120
+            Visible = True
+          end>
+      end
+      object Panel1: TPanel
+        AlignWithMargins = True
+        Left = 3
+        Top = 166
+        Width = 832
+        Height = 40
+        Align = alBottom
+        BevelKind = bkFlat
+        BevelOuter = bvNone
+        TabOrder = 1
+        object Button1: TButton
+          AlignWithMargins = True
+          Left = 712
+          Top = 3
+          Width = 113
+          Height = 30
+          Cursor = crHandPoint
+          Align = alRight
+          Caption = 'Voltar'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Trebuchet MS'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 0
+          OnClick = Button1Click
+        end
       end
     end
+  end
+  object Ds: TDataSource
+    Left = 207
+    Top = 267
   end
 end

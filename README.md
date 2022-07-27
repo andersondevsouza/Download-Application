@@ -34,5 +34,10 @@
 # Observações
  A aplicação não está aceitando links "https://" no momento apenas "http://". Isso deverá ser corrigido o mais brevemente possível.
  
+# Instruções de Configuração para Execução
+ A unica alteração a ser feita é no arquivo "connection.ini" que se encontra na pasta Executável.
+ Na Tag "Path" deve informar o diretorio da aplicação + \DataBase\bd.db, como no exemplo:
+ "C:\Developer\Projetos\Download-Application\DataBase\bd.db"
+ 
  
  

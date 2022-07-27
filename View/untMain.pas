@@ -102,14 +102,14 @@ end;
 
 procedure TfrmMain.DownloadOnOff(inDownload: Boolean);
 begin
-  Self.Height := 435;
+  //Self.Height := 435;
   btnDownload.Enabled := False;
   btnStopDownload.Enabled := True;
   btnAllDownloads.Enabled := False;
   pnProgress.Visible := True;
 
   if not inDownload then begin
-    Self.Height := 355;
+    //Self.Height := 355;
     btnDownload.Enabled := True;
     btnStopDownload.Enabled := False;
     btnAllDownloads.Enabled := True;
@@ -135,7 +135,7 @@ begin
   RequestHTTP := TRequestHTTP.New;
   RequestHTTP.AddObserver(Self);
 
-  Self.Height := 355;
+  //Self.Height := 400;
   tsHistorico.TabVisible := False;
   tsDownload.TabVisible := True;
 end;
@@ -187,14 +187,14 @@ end;
 
 procedure TfrmMain.ShowPageDownload;
 begin
-  Self.Height := 355;
+  //Self.Height := 400;
   tsHistorico.TabVisible := False;
   tsDownload.TabVisible := True;
 end;
 
 procedure TfrmMain.ShowPageHistorico;
 begin
-  Self.Height := 435;
+  //Self.Height := 435;
   tsHistorico.TabVisible := True;
   tsDownload.TabVisible := False;
 end;

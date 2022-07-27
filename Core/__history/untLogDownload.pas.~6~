@@ -1,0 +1,39 @@
+unit untLogDownload;
+
+interface
+
+uses
+  untInterfaces, untDataModule, Data.DB;
+
+type
+  TLogDownload = class(TInterfacedObject, ILogDownload)
+    private
+      FDataModule: TDataM;
+    public
+      constructor Create;
+      destructor Destroy; override;
+      function GetLogDownloads: TDataSet;
+
+  end;
+
+implementation
+
+{ TLogDownload }
+
+constructor TLogDownload.Create;
+begin
+  FDataModule := TDataM.Create(nil);
+end;
+
+destructor TLogDownload.Destroy;
+begin
+  FreeAndNil(FDataModule);
+  inherited;
+end;
+
+function TLogDownload.GetLogDownloads: TDataSet;
+begin
+  Result := FDataModule.GetLogDownloads;
+end;
+
+end.

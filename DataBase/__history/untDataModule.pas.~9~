@@ -1,0 +1,121 @@
+unit untDataModule;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.SQLite,
+  FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs, FireDAC.VCLUI.Wait, Data.DB,
+  FireDAC.Comp.Client, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
+  FireDAC.DApt, FireDAC.Comp.DataSet;
+
+type
+  TDataM = class(TDataModule)
+    FDConnection: TFDConnection;
+    FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink;
+    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleDestroy(Sender: TObject);
+  private
+    { Private declarations }
+    FQryAux : TFDQuery;
+    function GetId: Integer;
+  public
+    { Public declarations }
+    function InsertRecord(url: String) : Integer;
+    procedure SetEndDownload(id: integer);
+    function GetLogDownloads: TDataSet;
+  end;
+
+var
+  DataM: TDataM;
+
+implementation
+
+uses
+  IniFiles, Vcl.Forms;
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+{ TDataM }
+
+procedure TDataM.DataModuleCreate(Sender: TObject);
+var
+  Files, Path: String;
+  IniFile : TIniFile;
+begin
+  try
+    Files := ParamStr(0);
+    Files := ExtractFileDir(Files)+'\connection.ini';
+    IniFile := TIniFile.Create(Files);
+    Path := IniFile.ReadString('DATABASE','Path','');
+    FDConnection.Connected := False;
+    FDConnection.Params.Values['Database'] := Path;
+  finally
+    IniFile.DisposeOf;
+  end;
+
+  FDConnection.Connected := True;
+end;
+
+procedure TDataM.DataModuleDestroy(Sender: TObject);
+begin
+  FDConnection.Connected := False;
+  FreeAndNil(FQryLogDownload);
+end;
+
+function TDataM.GetId: Integer;
+begin
+  FQryAux := TFDQuery.Create(nil);
+  FQryAux.Connection := FDConnection;
+  try
+    FQryAux.Close;
+    FQryAux.Open('SELECT COALESCE(MAX(CODIGO),0) + 1 as ID FROM LOGDOWNLOAD');
+
+    Result := FQryAux.FieldByName('ID').AsInteger;
+  finally
+    FreeAndNil(FQryAux);
+  end;
+end;
+
+function TDataM.GetLogDownloads: TDataSet;
+begin
+  FQryAux.Close;
+  FQryAux.SQL.Clear;
+  FQryAux.Open('SELECT CODIGO, URL, DATAINICIO, DATAFIM '+
+                      '  FROM LOGDOWNLOAD ');
+  Result := FQryAux;
+end;
+
+function TDataM.InsertRecord(url: String): Integer;
+var
+  Id: Integer;
+begin
+  Id := GetId;
+
+  FQryAux.Close;
+  FQryAux.SQL.Clear;
+  FQryAux.SQL.Add('INSERT INTO LOGDOWNLOAD(CODIGO,');
+  FQryAux.SQL.Add('                        URL,');
+  FQryAux.SQL.Add('                        DATAINICIO)');
+  FQryAux.SQL.Add('                 VALUES(:CODIGO,');
+  FQryAux.SQL.Add('                        :URL,');
+  FQryAux.SQL.Add('                        :DATAINICIO)');
+  FQryAux.ParamByName('codigo').AsInteger := Id;
+  FQryAux.ParamByName('url').AsString := url;
+  FQryAux.ParamByName('datainicio').AsDateTime := Now;
+  FQryAux.ExecSQL;
+
+  Result := GetId;
+end;
+
+procedure TDataM.SetEndDownload(id: integer);
+var
+  QrySetEndDownload: TFDQuery;
+begin
+  QrySetEndDownload := TFDQuery;
+end;
+
+end.

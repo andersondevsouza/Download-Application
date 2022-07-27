@@ -1,0 +1,18 @@
+unit untLogDownload;
+
+interface
+
+uses
+  untInterfaces, untDataModule, Data.DB;
+
+type
+  TLogDownload = class(TInterfacedObject, ILogDownload)
+    private
+      DataModule: TDataSet;
+    public
+
+  end;
+
+implementation
+
+end.

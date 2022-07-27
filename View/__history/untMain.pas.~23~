@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls,
   Vcl.ExtCtrls, Vcl.Imaging.pngimage, untInterfaces,
-  untRequestHttp, untResponseHttp, Data.DB, Vcl.Grids, Vcl.DBGrids, untLogDownload;
+  untRequestHttp, untResponseHttp, Data.DB, Vcl.Grids, Vcl.DBGrids, untDataModule;
 
 type
   TfrmMain = class(TForm, IObserverDownload)
@@ -42,12 +42,13 @@ type
   private
     { Private declarations }
     RequestHTTP: IRequestHTTP;
-    FLogDownload: TLogDownload;
 
     function GetSavePathDownload: String;
     procedure DownloadOnOff(inDownload: Boolean);
     procedure ShowProgress(DownloadResponse: TDownloadResponse);
     procedure GetLogDownloads;
+    procedure ShowPageHistorico;
+    procedure ShowPageDownload;
   public
     { Public declarations }
     procedure RefreshProgress(DownloadResponse:
@@ -63,11 +64,8 @@ implementation
 
 procedure TfrmMain.btnAllDownloadsClick(Sender: TObject);
 begin
-  Self.Height := 435;
-  tsHistorico.TabVisible := True;
-  tsDownload.TabVisible := False;
-
-  FLogDownload := TLogDownload.Create;
+  ShowPageHistorico;
+  GetLogDownloads;
 end;
 
 procedure TfrmMain.btnCloseClick(Sender: TObject);
@@ -99,21 +97,19 @@ end;
 
 procedure TfrmMain.Button1Click(Sender: TObject);
 begin
-  Self.Height := 355;
-  tsHistorico.TabVisible := False;
-  tsDownload.TabVisible := True;
+  ShowPageDownload;
 end;
 
 procedure TfrmMain.DownloadOnOff(inDownload: Boolean);
 begin
-  Self.Height := 435;
+  //Self.Height := 435;
   btnDownload.Enabled := False;
   btnStopDownload.Enabled := True;
   btnAllDownloads.Enabled := False;
   pnProgress.Visible := True;
 
   if not inDownload then begin
-    Self.Height := 355;
+    //Self.Height := 355;
     btnDownload.Enabled := True;
     btnStopDownload.Enabled := False;
     btnAllDownloads.Enabled := True;
@@ -125,12 +121,12 @@ procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if RequestHTTP.DownloadIsRunning then
   begin
-    if Application.MessageBox('Existe um download em andamento, ',
-      'deseja interrompe-lo?', MB_YESNO + MB_ICONQUESTION) = mrYes then begin
+    if Application.MessageBox('Existe um download em andamento, ','deseja interrompe-lo?',
+     MB_YESNO + MB_ICONQUESTION) = mrYes then begin
       btnStopDownload.Click;
     end
     else
-      Abort;
+      Exit;
   end;
 end;
 
@@ -139,16 +135,14 @@ begin
   RequestHTTP := TRequestHTTP.New;
   RequestHTTP.AddObserver(Self);
 
-  Self.Height := 355;
+  //Self.Height := 400;
   tsHistorico.TabVisible := False;
   tsDownload.TabVisible := True;
-
-  FLogDownload := TLogDownload.Create;
 end;
 
 procedure TfrmMain.GetLogDownloads;
 begin
-  Ds.DataSet := FLogDownload.ResponseLog;
+  Ds.DataSet := DataM.GetLogDownloads;
 end;
 
 function TfrmMain.GetSavePathDownload: String;
@@ -174,7 +168,7 @@ begin
   case DownloadResponse.Status of
     stDownloadRunning:
     begin
-      ShowProgress(DownloadResponse); 
+      ShowProgress(DownloadResponse);
       DownloadOnOff(True);
     end;
     stDownloadFinalize:
@@ -191,12 +185,26 @@ begin
 end;
 
 
+procedure TfrmMain.ShowPageDownload;
+begin
+  //Self.Height := 400;
+  tsHistorico.TabVisible := False;
+  tsDownload.TabVisible := True;
+end;
+
+procedure TfrmMain.ShowPageHistorico;
+begin
+  //Self.Height := 435;
+  tsHistorico.TabVisible := True;
+  tsDownload.TabVisible := False;
+end;
+
 procedure TfrmMain.ShowProgress(DownloadResponse: TDownloadResponse);
 begin
   pbDownload.Max := DownloadResponse.MaxProgress;
   pbDownload.Position := DownloadResponse.CountProgress - 20;
   lbPerc.Caption := FormatFloat('0 %', DownloadResponse.PercProgress);
-  lbKb.Caption := FormatFloat('0.000 KBs %', DownloadResponse.KbProgress);
+  lbKb.Caption := FormatFloat('0.000 KBs', DownloadResponse.KbProgress);
 end;
 
 end.

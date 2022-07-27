@@ -33,7 +33,7 @@ var
 implementation
 
 uses
-  IniFiles, Vcl.Forms;
+  Vcl.Forms;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -42,21 +42,9 @@ uses
 { TDataM }
 
 procedure TDataM.DataModuleCreate(Sender: TObject);
-var
-  Files, Path: String;
-  IniFile : TIniFile;
 begin
-  Files := ParamStr(0);
-  Files := ExtractFileDir(Files)+'\connection.ini';
-  IniFile := TIniFile.Create(Files);
-  try
-    Path := IniFile.ReadString('DATABASE','Path','');
-    FDConnection.Connected := False;
-    FDConnection.Params.Values['Database'] := Path;
-  finally
-    IniFile.DisposeOf;
-  end;
-
+  FDConnection.Connected := False;
+  FDConnection.Params.Database := ExtractFilePath(Application.ExeName) + 'Database\bd.db';
   FDConnection.Connected := True;
 
   FQryAux := TFDQuery.Create(nil);

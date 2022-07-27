@@ -204,7 +204,7 @@ begin
   pbDownload.Max := DownloadResponse.MaxProgress;
   pbDownload.Position := DownloadResponse.CountProgress - 20;
   lbPerc.Caption := FormatFloat('0 %', DownloadResponse.PercProgress);
-  lbKb.Caption := FormatFloat('0.000 KBs %', DownloadResponse.KbProgress);
+  lbKb.Caption := FormatFloat('0.000 KBs', DownloadResponse.KbProgress);
 end;
 
 end.

@@ -182,8 +182,6 @@ object frmMain: TfrmMain
     TabOrder = 1
     object tsDownload: TTabSheet
       Caption = 'Downloads'
-      ExplicitWidth = 281
-      ExplicitHeight = 162
       object pnButtons: TPanel
         AlignWithMargins = True
         Left = 3
@@ -211,7 +209,6 @@ object frmMain: TfrmMain
           ParentFont = False
           TabOrder = 2
           OnClick = btnAllDownloadsClick
-          ExplicitHeight = 41
         end
         object btnDownload: TButton
           AlignWithMargins = True
@@ -230,7 +227,6 @@ object frmMain: TfrmMain
           ParentFont = False
           TabOrder = 0
           OnClick = btnDownloadClick
-          ExplicitTop = -2
         end
         object btnStopDownload: TButton
           AlignWithMargins = True
@@ -250,7 +246,6 @@ object frmMain: TfrmMain
           ParentFont = False
           TabOrder = 1
           OnClick = btnStopDownloadClick
-          ExplicitHeight = 41
         end
       end
       object pnMain: TPanel
@@ -262,9 +257,6 @@ object frmMain: TfrmMain
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 1
-        ExplicitLeft = 6
-        ExplicitTop = 11
-        ExplicitHeight = 268
         object Label3: TLabel
           Left = 0
           Top = 0
@@ -301,8 +293,6 @@ object frmMain: TfrmMain
         BevelOuter = bvNone
         TabOrder = 2
         Visible = False
-        ExplicitLeft = 6
-        ExplicitTop = 11
         object lbPerc: TLabel
           AlignWithMargins = True
           Left = 3
@@ -351,8 +341,6 @@ object frmMain: TfrmMain
     object tsHistorico: TTabSheet
       Caption = 'Hist'#243'rico de Downloads'
       ImageIndex = 1
-      ExplicitWidth = 281
-      ExplicitHeight = 162
       object DBGrid1: TDBGrid
         AlignWithMargins = True
         Left = 3
@@ -406,7 +394,6 @@ object frmMain: TfrmMain
         BevelKind = bkFlat
         BevelOuter = bvNone
         TabOrder = 1
-        ExplicitTop = 165
         object Button1: TButton
           AlignWithMargins = True
           Left = 712
